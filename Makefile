@@ -56,6 +56,8 @@ bootstrap: $(RESULTSDIR) bootstrap-tools ## Download and install all build depen
 build_bundle: $(DISTDIR)
 	$(call title,Building bundle artifact)
 	$(TEMPDIR)/opa build ./modules --debug -o $(DISTDIR)/bundle_$(PKG_VERSION).tar.gz
+	set -x
+	env
 	echo "BUNDLE=${BUNDLE}" >> "${GITHUB_OUTPUT}"
 
 bundle_path:
