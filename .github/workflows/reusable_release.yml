@@ -50,10 +50,10 @@ jobs:
         username: ${{ inputs.registry_username }}
         password: ${{ secrets.registry_password }}
     
-    - name: Release
+    - name: Release-Artifacts
       run: make release
 
-    - name: Release
+    - name: Release-Github
       uses: softprops/action-gh-release@v1
       with:
         files: dist/bundle*.tar.gz
