@@ -1,7 +1,7 @@
 name: Build
 
 on:
-  # push:
+  push:
   pull_request:
   workflow_dispatch:
 
@@ -30,3 +30,7 @@ jobs:
 
     - name: Build all artifacts
       run: make build
+
+    - run: |
+      echo ###1 ${{ steps.release.outputs.BUNDLE }}
+      make bundle_path

@@ -25,6 +25,7 @@ endef
 GITTREESTATE=$(if $(shell git status --porcelain),dirty,clean)
 OS := $(shell uname)
 PKG_VERSION:=$(shell git describe --tags --always | tr -d v)
+BUNDLE=$(DISTDIR)/bundle_$(PKG_VERSION).tar.gz
 PROJECT_NAME:=$(shell basename `git rev-parse --show-toplevel | tr A-Z a-z`  )
 
 ## Tasks
@@ -55,6 +56,10 @@ bootstrap: $(RESULTSDIR) bootstrap-tools ## Download and install all build depen
 build_bundle: $(DISTDIR)
 	$(call title,Building bundle artifact)
 	$(TEMPDIR)/opa build ./modules --debug -o $(DISTDIR)/bundle_$(PKG_VERSION).tar.gz
+	echo "BUNDLE=${BUNDLE}" >> "${GITHUB_OUTPUT}"
+
+bundle_path:
+	@echo ${BUNDLE}
 
 .PHONY: build_image
 build_image: $(DISTDIR)

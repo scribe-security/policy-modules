@@ -50,12 +50,25 @@ jobs:
         username: ${{ inputs.registry_username }}
         password: ${{ secrets.registry_password }}
     
-    - name: Release-Artifacts
+    - name: Release
+      id: release
       run: make release
 
     - name: Release-Github
       uses: softprops/action-gh-release@v1
       with:
         files: dist/bundle*.tar.gz
-        # draft: true
+    
+    - run: |
+        echo ###1 ${{ steps.release.outputs.BUNDLE }}
+        make bundle_path
+
+    - uses: scribe-security/action-bom@master
+      name: Policy Bundle Attest
+      with:
+        target: file:${{ steps.release.outputs.BUNDLE }}
+        format: attest-slsa
+        scribe-enable: true
+        scribe-client-id: ${{ secrets.clientid }}
+      # draft: true
 
