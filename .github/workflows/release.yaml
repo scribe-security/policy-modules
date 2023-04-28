@@ -1,0 +1,61 @@
+
+name: release
+
+env:
+  ARTIFACTORY_URL: "https://scribesecuriy.jfrog.io"
+
+on:
+  push:
+    tags:
+      - "*"
+      - '!*-*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v1
+
+    - name: Restore tool cache
+      id: tool-cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          .tmp
+        key: ${{ runner.os }}-tool-${{ hashFiles('Makefile') }}
+
+    - name: Bootstrap
+      if: steps.tool-cache.outputs.cache-hit != 'true'
+      run: make bootstrap
+
+    # - name: Run tests
+    #   run: make test
+
+    - uses: jfrog/setup-jfrog-cli@v2
+      env:
+        JF_ENV_1: ${{ secrets.RELEASE_ARTIFACTORY_TOKEN_ENV }}
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ env.ARTIFACTORY_URL }}
+        username: ${{ secrets.RELEASE_ARTIFACTORY_USERNAME }}
+        password: ${{ secrets.RELEASE_ARTIFACTORY_TOKEN }}
+    
+    - name: Release
+      run: make release
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/bundle*.tar.gz
+        # draft: true
+

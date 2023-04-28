@@ -1,0 +1,12 @@
+{
+    "config": {
+        "my_flag": "true"
+    },
+    "context": {
+        "context-type": "local",
+        "workflow": "example_verify.yml"
+    },
+    "evidence": {
+        "some_evidence": [{"test":"test"}]
+    }
+}
