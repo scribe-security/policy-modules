@@ -58,7 +58,7 @@ build_bundle: $(DISTDIR)
 	$(TEMPDIR)/opa build ./modules --debug -o $(DISTDIR)/bundle_$(PKG_VERSION).tar.gz
 	set -x
 	env
-	echo BUNDLE=$(BUNDLE) >> $(GITHUB_OUTPUT)
+	if [ -n "${GITHUB_OUTPUT}" ]; then echo "BUNDLE=${BUNDLE}" >> "${GITHUB_OUTPUT}"; fi
 
 bundle_path:
 	@echo ${BUNDLE}

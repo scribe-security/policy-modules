@@ -30,6 +30,8 @@ jobs:
 
     - name: Build all artifacts
       run: make build
+      env:
+        GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
 
     - name: Output bundle path
       run: |
