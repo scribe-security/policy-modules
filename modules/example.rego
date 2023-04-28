@@ -27,41 +27,28 @@ Verify = result {
 }
 
 allow = result {
-    # // Your verification logic here
-    # // Return (true, nil) if verification succeeds
-    # // Return (false, err) if verification fails
     config := input.config
-    # verifierContext := input.context
-    # evidence := input.evidence.some_evidence[0]
+    verifierContext := input.context
+    evidence := input.evidence.some_evidence[0]
 
     print("Config: ", config)
-    # print("Verifier-context: ", verifierContext)
-    # print("Evidence: ", evidence)
+    print("Verifier-context: ", verifierContext)
+    print("Evidence: ", evidence)
 
     myFlagEnabled(config.my_flag)
     result := true
 }
 
 
-valuation[{"results": result}] {
+valuation[{"results": [{"message": "user disabled - my_regulation"}]}] {
     config := input.config
-    # verifierContext := input.context
-    # evidence := input.evidence.some_evidence[0]
-
-    # print("Config: ", config)
-    # print("Verifier-context: ", verifierContext)
-    # print("Evidence: ", evidence)
-
     not myFlagEnabled(config.my_flag)
-    result := {
-        "message": "user disabled - my_regulation"
-    }
 }
 
 valuation[{"results": [{"message": "some_evidence evidence missing"}]}] {
     config := input.config
     myFlagEnabled(config.my_flag)
-    
+
     not input.evidence.some_evidence
 }
 

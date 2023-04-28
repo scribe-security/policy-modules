@@ -1,6 +1,6 @@
 {
     "config": {
-        "my_flag": "true"
+        "my_flag": "false"
     },
     "context": {
         "context-type": "local",
