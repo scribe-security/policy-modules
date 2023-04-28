@@ -80,12 +80,12 @@ release_images:
 	@docker push $(REGISTRY)/$(PROJECT_NAME):$(PKG_VERSION)
 	@docker push $(REGISTRY)/$(PROJECT_NAME):latest
 
-release_artifactory: 
-	$(call title,Release bundle to $(ARTIFACTROY))
-	$(TEMPDIR)/jf rt upload --exclusions "dist/$(BUNDLE_PREFIX)_*.*.*-*.tar.gz" --flat "dist/$(BUNDLE_PREFIX)_*.*.*.tar.gz"  $(ARTIFACTROY)/$(PROJECT_NAME)/$(BUNDLE_PREFIX)/
+# release_artifactory: 
+# 	$(call title,Release bundle to $(ARTIFACTROY))
+# 	$(TEMPDIR)/jf rt upload --exclusions "dist/$(BUNDLE_PREFIX)_*.*.*-*.tar.gz" --flat "dist/$(BUNDLE_PREFIX)_*.*.*.tar.gz"  $(ARTIFACTROY)/$(PROJECT_NAME)/$(BUNDLE_PREFIX)/
 
 .PHONY: release
-release: $(DISTDIR) build release_images release_artifactory ## Release policy bundle,image
+release: $(DISTDIR) build release_images ## Release policy bundle,image
 	$(call title,Release successful)
 
 .PHONY: clean
