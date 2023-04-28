@@ -1,2 +1,4 @@
 #!/bin/bash
- GOGC=1000 opa eval -b dist/bundle_*.tar.gz "data.example.vailation" --input test/input.json --profile --format=pretty
+bundle=`ls -t dist/ | head -n 1`
+echo "Bundle: ${bundle}"
+GOGC=1000 opa eval -b dist/${bundle} "data.example.Verify" --input test/input.json --profile --format=pretty

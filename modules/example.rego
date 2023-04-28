@@ -73,19 +73,22 @@ valuation[{"results": [{"message": "missing subject some_evidence"}]}] {
 
 some_evidence_subject = result {
     config := input.config
+
     not myFlagEnabled(config.my_flag)
     result = []
-
 }
 some_evidence_subject = result {
     config := input.config
     myFlagEnabled(config.my_flag)
 
     evidence := input.evidence.some_evidence[0]
-    result = evidence.subject
+    result = evidence_subject(evidence)
 }
 
 
+evidence_subject(evidence) = subject {
+    subject = evidence.subject
+}
 
 myFlagEnabled(my_flag) {
     my_flag == "true"
