@@ -21,6 +21,7 @@ Verify = result {
     
     result := {
         "allow": allow,
+        "subject": some_evidence_subject,
         "valuations": valuation,
     }
 
@@ -33,12 +34,11 @@ allow = result {
 
     print("Config: ", config)
     print("Verifier-context: ", verifierContext)
-    print("Evidence: ", evidence)
+    # print("Evidence: ", evidence.)
 
     myFlagEnabled(config.my_flag)
     result := true
 }
-
 
 valuation[{"results": [{"message": "user disabled - my_regulation"}]}] {
     config := input.config
@@ -59,6 +59,33 @@ valuation[{"results": [{"message": sprintf("missing evidence %d", [count(evidenc
     evidenceL := input.evidence.some_evidence
     count(evidenceL) == 0
 }
+
+valuation[{"results": [{"message": "missing subject some_evidence"}]}] {
+    config := input.config
+    myFlagEnabled(config.my_flag)
+
+    evidenceL := input.evidence.some_evidence
+    count(evidenceL) > 0
+
+    not evidenceL[0].subject
+}
+
+
+some_evidence_subject = result {
+    config := input.config
+    not myFlagEnabled(config.my_flag)
+    result = []
+
+}
+some_evidence_subject = result {
+    config := input.config
+    myFlagEnabled(config.my_flag)
+
+    evidence := input.evidence.some_evidence[0]
+    result = evidence.subject
+}
+
+
 
 myFlagEnabled(my_flag) {
     my_flag == "true"

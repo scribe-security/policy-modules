@@ -1,12 +1,83 @@
 {
     "config": {
-        "my_flag": "false"
+        "my_flag": "true"
     },
     "context": {
         "context-type": "local",
         "workflow": "example_verify.yml"
     },
     "evidence": {
-        "some_evidence": [{"test":"test"}]
+        "some_evidence": [
+            {
+                "_type": "https://in-toto.io/Statement/v0.1",
+                "predicateType": "https://slsa.dev/provenance/v0.2",
+                "subject": [
+                  {
+                    "name": "index.docker.io/library/busybox:latest",
+                    "digest": {
+                      "sha256": "7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9"
+                    }
+                  }
+                ],
+                "predicate": {
+                  "builder": {
+                    "id": "local"
+                  },
+                  "buildType": "local_run",
+                  "invocation": {
+                    "configSource": {
+                      "uri": "https://github.com/scribe-security/valint.git",
+                      "digest": {
+                        "sha1": "6cc82dff43b74f952cc875f4b3f3aaf99c3371cc"
+                      }
+                    },
+                    "environment": {
+                      "hostname": "mikey-Latitude-5520",
+                      "user": "mikey",
+                      "timestamp": "2023-04-28T09:55:45+03:00",
+                      "input_scheme": "docker",
+                      "input_name": "busybox",
+                      "input_tag": "latest",
+                      "content_type": "statement-slsa",
+                      "context_type": "local",
+                      "git_url": "https://github.com/scribe-security/valint.git",
+                      "git_branch": "main",
+                      "git_tag": "v0.2.0-2",
+                      "git_commit": "6cc82dff43b74f952cc875f4b3f3aaf99c3371cc",
+                      "git_ref": "refs/heads/main",
+                      "imageID": "sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9",
+                      "imageTag": [
+                        "latest"
+                      ],
+                      "target_type": "image",
+                      "sbomgroup": "image",
+                      "sbomname": "index.docker.io/library/busybox:latest",
+                      "sbomversion": "sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9",
+                      "sbomhashs": [
+                        "sha256-b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16",
+                        "sha256-7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9"
+                      ],
+                      "sbompurl": "pkg:docker/index.docker.io/library/busybox:index.docker.io/library/busybox:latest@sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9"
+                    }
+                  },
+                  "metadata": {
+                    "completeness": {
+                      "parameters": false,
+                      "environment": false,
+                      "materials": false
+                    },
+                    "reproducible": false
+                  },
+                  "materials": [
+                    {
+                      "uri": "https://github.com/scribe-security/valint.git",
+                      "digest": {
+                        "sha1": "6cc82dff43b74f952cc875f4b3f3aaf99c3371cc"
+                      }
+                    }
+                  ]
+                }
+              }
+        ]
     }
 }
