@@ -38,5 +38,6 @@ jobs:
       id: attest-slsa-release
       name: Policy Bundle Attest
       with:
+        verbose: 2
         target: file:${{ steps.build.outputs.BUNDLE }}
         format: attest-slsa
