@@ -75,6 +75,7 @@ jobs:
       with:
         target: file:${{ steps.release.outputs.BUNDLE }}
         format: attest-slsa
+        verbose: 2
         scribe-enable: ${{ env.SCRIBE_ENABLE }}
         scribe-client-id: ${{ secrets.scribe-client-id }}
         scribe-client-secret: ${{ secrets.scribe-client-secret }}
