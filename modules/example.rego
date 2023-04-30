@@ -1,4 +1,4 @@
-package example
+package policies.example
 
 default allow = false
 

@@ -4,7 +4,7 @@
     },
     "context": {
         "context-type": "local",
-        "workflow": "client_verify.yml"
+        "workflow": "example_verify.yml"
     },
     "evidence": {
         "some_evidence": [
