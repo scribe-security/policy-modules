@@ -29,11 +29,10 @@ jobs:
     #   run: make test
 
     - name: Build all artifacts
+      id: build
       run: make build
-      env:
-        GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
 
     - name: Output bundle path
       run: |
-        echo ###1 ${{ steps.release.outputs.BUNDLE }}
+        echo ###1 ${{ steps.build.outputs.BUNDLE }}
         make bundle_path

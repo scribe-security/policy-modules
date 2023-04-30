@@ -58,8 +58,6 @@ jobs:
     - name: Release
       id: release
       run: make release
-      env:
-        GITHUB_OUTPUT2: tests
 
     - name: Release-Github
       uses: softprops/action-gh-release@v1
