@@ -10,10 +10,10 @@ on:
         required: true   
       scribe-client-id:
         required: true
-        default: ""
+        default: "not-provided"
       scribe-client-secret:
         required: true
-        default: ""
+        default: "not-provided"
     inputs:
       GITHUB_USER:
         type: string
@@ -61,13 +61,23 @@ jobs:
       id: release
       run: make release
 
+    - name: Set Scribe Enable
+      run: |
+        if [ "${{ secrets.scribe-client-id }}" == "" ]; then
+          echo "Scribe is disabled"
+          echo "SCRIBE_ENABLE=false" >> "${GITHUB_ENV}"
+        else
+          echo "Scribe is enabled"
+          echo "SCRIBE_ENABLE=true" >> "${GITHUB_ENV}"
+        fi
+
     - uses: scribe-security/action-bom@master
       id: attest-slsa-release
       name: Policy Bundle Attest
       with:
         target: file:${{ steps.release.outputs.BUNDLE }}
         format: attest-slsa
-        scribe-enable: true
+        scribe-enable: ${{ env.SCRIBE_ENABLE }}
         scribe-client-id: ${{ secrets.scribe-client-id }}
         scribe-client-secret: ${{ secrets.scribe-client-secret }}
 
