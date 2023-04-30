@@ -8,6 +8,10 @@ on:
         required: true
       registry_password:
         required: true   
+      scribe-client-id:
+        required: true
+      scribe-client-secret:
+        required: true
     inputs:
       GITHUB_USER:
         type: string
@@ -26,7 +30,8 @@ jobs:
     name: reusable_release
     runs-on: ubuntu-20.04
     permissions:
-      contents: write
+      contents: write # For releases
+      id-token: write # For Sigstore Signing
     steps:
     - name: Check out code
       uses: actions/checkout@v2
@@ -54,7 +59,7 @@ jobs:
       id: release
       run: make release
       env:
-        GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
+        GITHUB_OUTPUT2: tests
 
     - name: Release-Github
       uses: softprops/action-gh-release@v1
@@ -62,6 +67,8 @@ jobs:
         files: dist/bundle*.tar.gz
     
     - run: |
+        echo ###0 ${{ env.GITHUB_OUTPUT }}
+        echo ###0.1 $GITHUB_OUTPUT
         echo ###1 ${{ steps.release.outputs.BUNDLE }}
         make bundle_path
 
@@ -71,6 +78,7 @@ jobs:
         target: file:${{ steps.release.outputs.BUNDLE }}
         format: attest-slsa
         scribe-enable: true
-        scribe-client-id: ${{ secrets.clientid }}
+        scribe-client-id: ${{ secrets.scribe-client-id }}
+        scribe-client-secret: ${{ secrets.scribe-client-secret }}
       # draft: true
 
