@@ -18,6 +18,8 @@ jobs:
     secrets:
       RELEASE_GITHUB_TOKEN: ${{ secrets.READ_PRIVATE_GO_REPOS }} ## needed to pull our private go libraries
       registry_password: ${{ secrets.RELEASE_ARTIFACTORY_TOKEN }}
+      scribe-client-id: ${{ secrets.SCRIBE_PROD_M2M_CLIENT_ID  }}
+      scribe-client-secret: ${{ secrets.SCRIBE_PROD_M2M_CLIENT_SECRET }}
     with:
       registry: https://scribesecuriy.jfrog.io
       registry_username: mikey@scribesecurity.com

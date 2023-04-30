@@ -10,8 +10,10 @@ on:
         required: true   
       scribe-client-id:
         required: true
+        default: ""
       scribe-client-secret:
         required: true
+        default: ""
     inputs:
       GITHUB_USER:
         type: string
@@ -59,18 +61,8 @@ jobs:
       id: release
       run: make release
 
-    - name: Release-Github
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/bundle*.tar.gz
-    
-    - run: |
-        echo ###0 ${{ env.GITHUB_OUTPUT }}
-        echo ###0.1 $GITHUB_OUTPUT
-        echo ###1 ${{ steps.release.outputs.BUNDLE }}
-        make bundle_path
-
     - uses: scribe-security/action-bom@master
+      id: attest-slsa-release
       name: Policy Bundle Attest
       with:
         target: file:${{ steps.release.outputs.BUNDLE }}
@@ -78,5 +70,12 @@ jobs:
         scribe-enable: true
         scribe-client-id: ${{ secrets.scribe-client-id }}
         scribe-client-secret: ${{ secrets.scribe-client-secret }}
-      # draft: true
+
+    - name: Release-Github
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ${{ steps.release.outputs.BUNDLE }}
+          ${{ steps.attest-slsa-release.outputs.OUTPUT_PATH }}
+        # draft: true
 
