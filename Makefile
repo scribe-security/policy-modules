@@ -50,10 +50,7 @@ bootstrap: $(RESULTSDIR) bootstrap-tools ## Download and install all build depen
 build_bundle: $(DISTDIR)
 	$(call title,Building bundle artifact)
 	$(TEMPDIR)/opa build ./modules --debug -o $(DISTDIR)/bundle_$(PKG_VERSION).tar.gz
-	if [ -n "${GITHUB_OUTPUT}" ]; then 
-		echo "BUNDLE=${BUNDLE}" >> "${GITHUB_OUTPUT}"
-		echo "exported Action output BUNDLE=${BUNDLE}"
-	fi
+	if [ -n "${GITHUB_OUTPUT}" ]; then echo "BUNDLE=${BUNDLE}" >> "${GITHUB_OUTPUT}";echo "exported Action output BUNDLE=${BUNDLE}"; fi
 
 .PHONY: bundle_path
 bundle_path:
