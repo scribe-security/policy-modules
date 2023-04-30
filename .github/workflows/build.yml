@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-20.04
+    permissions:
+      id-token: write # For Sigstore Signing
     steps:
     - name: Check out code
       uses: actions/checkout@v2
@@ -32,7 +34,9 @@ jobs:
       id: build
       run: make build
 
-    - name: Output bundle path
-      run: |
-        echo ###1 ${{ steps.build.outputs.BUNDLE }}
-        make bundle_path
+    - uses: scribe-security/action-bom@master
+      id: attest-slsa-release
+      name: Policy Bundle Attest
+      with:
+        target: file:${{ steps.build.outputs.BUNDLE }}
+        format: attest-slsa
