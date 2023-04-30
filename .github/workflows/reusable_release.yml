@@ -9,11 +9,9 @@ on:
       registry_password:
         required: true   
       scribe-client-id:
-        required: true
-        default: "not-provided"
+        required: false
       scribe-client-secret:
-        required: true
-        default: "not-provided"
+        required: false
     inputs:
       GITHUB_USER:
         type: string
