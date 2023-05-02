@@ -22,9 +22,6 @@ on:
       registry_username:
         type: string
         required: true
-      IS_DEV:
-        type: string
-
 jobs:
   release:
     name: reusable_release
